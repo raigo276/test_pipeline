@@ -5,8 +5,9 @@
 trigger:
 - main
 
-resources:
-- repo: self
+
+pool:
+  vmImage: ubuntu-latest
 
 variables:
   tag: '$(Build.BuildId)'
@@ -15,16 +16,24 @@ stages:
 - stage: Build
   displayName: Build image
   jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: ubuntu-latest
+  - job: DockerImage
+    displayName: Build and push Docker image
     steps:
-    - task: Docker@2
+    - task: Docker@1
       inputs:
-        containerRegistry: 'dockerhub_raigo276'
-        repository: 'test_pipeline'
-        command: 'buildAndPush'
+        containerregistrytype: 'Container Registry'
+        dockerRegistryEndpoint: 'dockerhub_raigo276'
+        command: 'Build an image'
         Dockerfile: '**/Dockerfile'
-        tags: |
-              $(tag)
+        imageName: '$(tag)'
+        includeLatestTag: true
+        useDefaultContext: false
+        buildContext: '.'
+    - task: Docker@1
+      displayName: 'Push the Docker image to Dockerhub'
+      inputs:
+         containerregistrytype: 'Container Registry'
+         dockerRegistryEndpoint: 'dockerhub_raigo276'
+         command: 'Push an image'
+         imageName: '$(tag)'
+      condition: and(succeeded(), new(variables['Build.Reason'], 'PullRequest'))
