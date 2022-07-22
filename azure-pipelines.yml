@@ -37,4 +37,3 @@ stages:
          dockerRegistryEndpoint: 'dockerhub_raigo276'
          command: 'Push an image'
          imageName: '$(tag)'
-      condition: and(succeeded(), new(variables['Build.Reason'], 'PullRequest'))
