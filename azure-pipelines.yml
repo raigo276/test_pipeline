@@ -45,7 +45,8 @@ stages:
       steps:
         - checkout: self
           persistCredentials: true
-        - task: git-tag-on-release-task@2
-          displayName: "Create git tag"
-          inputs:
-            staticTagName: "TEST-$(Build.BuildNumber)"
+        - task: tagBuildOrRelease@0
+          displayName: 'Add Tag to git'
+          inputs:    
+            type: 'Build'
+            tags: 'TEST-$(Build.BuildNumber)'
