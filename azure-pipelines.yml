@@ -5,7 +5,6 @@
 trigger:
 - main
 
-
 pool:
   vmImage: ubuntu-latest
 
@@ -45,8 +44,8 @@ stages:
       steps:
         - checkout: self
           persistCredentials: true
-        - task: tagBuildOrRelease@0
+        - task: GitTag@6
           displayName: 'Add Tag to git'
           inputs:    
             type: 'Build'
-            tags: 'TEST-$(Build.BuildNumber)'
+            tag: 'TEST-$(Build.BuildNumber)'
