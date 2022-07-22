@@ -10,7 +10,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  tag: '$(Build.BuildId)'
+  ImageName: 'dockerraigo276/test_pipeline:$(Build.BuildId)'
 
 stages:
 - stage: Build
@@ -25,7 +25,7 @@ stages:
         dockerRegistryEndpoint: 'dockerhub_raigo276'
         command: 'Build an image'
         Dockerfile: '**/Dockerfile'
-        imageName: '$(tag)'
+        imageName: '$(ImageName)'
         includeLatestTag: true
         useDefaultContext: false
         buildContext: '.'
@@ -36,4 +36,4 @@ stages:
          containerregistrytype: 'Container Registry'
          dockerRegistryEndpoint: 'dockerhub_raigo276'
          command: 'Push an image'
-         imageName: '$(tag)'
+         imageName: '$(ImageName)'
