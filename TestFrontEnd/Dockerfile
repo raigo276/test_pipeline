@@ -7,7 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["TestFrontEnd.csproj", "."]
+COPY . .
 RUN dotnet restore "TestFrontEnd.csproj"
 COPY . .
 # WORKDIR "/src/TestFrontEnd"
