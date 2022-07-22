@@ -3,7 +3,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- development
+- main
 
 resources:
 - repo: self
@@ -21,13 +21,10 @@ stages:
       vmImage: ubuntu-latest
     steps:
     - task: Docker@2
-      displayName: Build an image
       inputs:
-        command: buildAndPush
-        repository: demo/test_pipeline
-        dockerfile: '**/Dockerfile'
-        containerRegistry: AzureContainerRegistry
+        containerRegistry: 'dockerhub_raigo276'
+        repository: 'test_pipeline'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
         tags: |
-          $(tag)
-
-
+              $(tag)
